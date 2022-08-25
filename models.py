@@ -32,6 +32,10 @@ class User(db.Model):
         unique=True,
     )
 
+    score = db.Column(
+        db.Integer,
+    )
+
 
     password = db.Column(
         db.Text,
@@ -45,7 +49,7 @@ class User(db.Model):
 
 
     @classmethod
-    def signup(cls, username, email, password):
+    def signup(cls, username, email, password, score):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -57,6 +61,7 @@ class User(db.Model):
             username=username,
             email=email,
             password=hashed_pwd,
+            score=score,
         )
 
         db.session.add(user)

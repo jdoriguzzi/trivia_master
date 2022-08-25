@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+
+    <h2> User: {{ g.user.username }} Your Score: {{ g.user.score }} </h2>
+
+    <a href="/question" class="btn btn-primary">Answer Another!</a>
+
+    <P>here we will tell the player if the anwer was correct or not, and score will be updated accordingly</P>
+
+  </div>
+{% endblock %}

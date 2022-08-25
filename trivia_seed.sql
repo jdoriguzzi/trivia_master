@@ -8,5 +8,6 @@ CREATE TABLE users
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL UNIQUE,
   email TEXT,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  score INTEGER
 );

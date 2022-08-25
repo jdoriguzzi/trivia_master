@@ -1,11 +1,13 @@
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, flash, request, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm
 from models import db, connect_db, User
+
+import requests, random
 
 CURR_USER_KEY = "curr_user"
 
@@ -73,6 +75,7 @@ def signup():
                 username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
+                score=0,
             )
             db.session.commit()
 
@@ -95,12 +98,10 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.authenticate(form.username.data,
-                                 form.password.data)
+        user = User.authenticate(form.username.data, form.password.data)
 
         if user:
             do_login(user)
-            flash(f"Hello, {user.username}!", "success")
             return redirect("/")
 
         flash("Invalid credentials.", 'danger')
@@ -131,9 +132,39 @@ def homepage():
 
     if g.user:
         return render_template('home.html')
-
     else:
         return render_template('home-anon.html')
+
+
+
+@app.route('/question')
+def questionPage():
+    """Show question:
+
+    """
+    res = requests.get('https://the-trivia-api.com/api/questions?limit=1')
+
+
+    res = res.json()
+
+    answers = []
+    questions = []
+
+    for r in range(1):
+        questions.append(res[r]['question'])
+        answers.append(res[r]['incorrectAnswers'])
+        answers[r].append(res[r]['correctAnswer'])
+        random.shuffle(answers[r])
+
+
+    return render_template('question.html', answers=answers[r], question=questions[r])
+
+
+@app.route('/checkAnswer', methods=["POST"])
+def checkAnswer():
+    return render_template('answer.html')
+    
+
 
 
 ##############################################################################

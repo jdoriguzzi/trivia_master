@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+
+    <h2> User: {{ g.user.username }} Your Score: {{ g.user.score }} </h2>
+
+    <div>
+      <br>
+      <p>{{question}}</p>
+      <form method="POST" action="/checkAnswer">
+        <div>
+        {% for ans in answers %}
+            <input type="radio", name="answer">{{ans}}</input><br>          
+        {% endfor %}
+      </div><br>
+        <input type="submit"><input>
+      </form>
+
+    </div>
+
+  </div>
+{% endblock %}
