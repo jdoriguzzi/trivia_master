@@ -142,6 +142,7 @@ def questionPage():
     """Show question:
 
     """
+    
     res = requests.get('https://the-trivia-api.com/api/questions?limit=1')
 
 
@@ -157,12 +158,17 @@ def questionPage():
         random.shuffle(answers[r])
 
 
-    return render_template('question.html', answers=answers[r], question=questions[r])
+    return render_template('question.html', answers=answers[r], question=questions[r], correctAnswer=res[r]['correctAnswer'])
 
 
 @app.route('/checkAnswer', methods=["POST"])
 def checkAnswer():
-    return render_template('answer.html')
+    if request.method=="POST":
+        if request.form["correctAnswer"] == request.form["answer"]:
+            flash("CORRECT!!!", 'danger')
+        else:
+            flash("Sorry!", 'danger')
+        return render_template('answer.html')
     
 
 

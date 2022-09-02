@@ -10,9 +10,12 @@
       <form method="POST" action="/checkAnswer">
         <div>
         {% for ans in answers %}
-            <input type="radio", name="answer">{{ans}}</input><br>          
+            <input type="radio", name="answer", value="{{ans}}">{{ans}}</input><br>          
         {% endfor %}
+        <input type="hidden", name = "correctAnswer", value="{{correctAnswer}}"></input>
+          
       </div><br>
+        
         <input type="submit"><input>
       </form>
 
